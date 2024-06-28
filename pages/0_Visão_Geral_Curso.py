@@ -35,13 +35,9 @@ st.markdown(header_html, unsafe_allow_html=True)
 
 @st.cache_data
 def merge_and_clean_dfs(file_path):
-    excel_data = pd.ExcelFile(file_path)
-    sheet_names = excel_data.sheet_names
-
-    dfs = {sheet: pd.read_excel(file_path, sheet_name=sheet) for sheet in sheet_names}
-    df_dados = dfs[sheet_names[0]]
-    df_notas = dfs[sheet_names[1]]
-    df_datas = dfs[sheet_names[2]]
+    df_dados = pd.read_excel(file_path, sheet_name='Dados pessoais')
+    df_notas = pd.read_excel(file_path, sheet_name='Notas')
+    df_datas = pd.read_excel(file_path, sheet_name='Dados pessoais')
     
     merged_df = pd.merge(df_dados, df_notas, on=['Número', 'Nome', 'Sobrenome','Email','Turma'], how='left')
     merged_df['Nome Completo'] = merged_df['Nome'] + ' ' + merged_df['Sobrenome']
